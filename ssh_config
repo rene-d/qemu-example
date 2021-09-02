@@ -1,0 +1,13 @@
+Host vm1
+    Hostname localhost
+    User debian
+    Port 11022
+    StrictHostKeyChecking no
+    UserKnownHostsFile /dev/null
+
+Host vm2
+    Hostname localhost
+    User debian
+    Port 12022
+    StrictHostKeyChecking no
+    UserKnownHostsFile /dev/null

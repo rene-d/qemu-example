@@ -1,0 +1,7 @@
+#cloud-config
+
+users:
+  - default
+  - name: debian
+    ssh_authorized_keys:
+        - <your public key>
