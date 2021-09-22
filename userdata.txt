@@ -1,7 +1,7 @@
+## template: jinja
 #cloud-config
 
-users:
-  - default
-  - name: debian
-    ssh_authorized_keys:
-        - <your public key>
+password: toto
+chpasswd: { expire: False }
+ssh_authorized_keys:
+    - {{ ds.meta_data.ssh_pubkey }}
