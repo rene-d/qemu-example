@@ -4,7 +4,7 @@ if [[ ! -f id_rsa.cloud ]]; then
     ssh-keygen -t rsa -N "" -f id_rsa.cloud
 fi
 
-if [[ -f metadata.json ]]; then
+if [[ ! -f metadata.json ]]; then
     printf '{"ssh_pubkey":"%s"}' "$(< id_rsa.cloud.pub)" > metadata.json
 fi
 
