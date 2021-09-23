@@ -10,4 +10,4 @@ fi
 
 docker build -t qemu .
 
-docker run --rm -ti --name qemu --device /dev/net --cap-add NET_ADMIN -p 11022:11022 -p 12022:12022 qemu
+docker run --rm -ti --name qemu --device /dev/net --cap-add NET_ADMIN -p 11022:11022 -p 12022:12022 --sysctl net.ipv4.ping_group_range='0 2147483647' qemu

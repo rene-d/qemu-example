@@ -2,14 +2,30 @@
 
 Run QEMU inside a Docker container
 
-```shell
-docker build -t qemu .
-docker run --rm -ti --name qemu -p 11022:11022 -p 12022:12022 --sysctl net.ipv4.ping_group_range='0 2147483647' qemu
+```text
+┏━━━━━━━━━━━━━━━━━━━━━━[ container ]━━━━━━━━━━━━━━━━━━━━━┓
+┃                                                        ┃
+┃                                                        ┃
+┃  ┌────────[ vm1 ]────────┑  ┌────────[ vm2 ]────────┐  ┃
+┃  │                       │  │                       │  ┃
+┃  │                       │  │                       │  ┃
+┃  │ 10.0.2.15   10.0.0.11 │  │ 10.0.0.12   10.0.2.15 │  ┃
+┃  │    ens4       net0    │  │    net0         ens4  │  ┃
+┃  └─────┬──────────┬──────┘  └─────┬────────────┬────┘  ┃
+┃        │          │               │            │       ┃
+┃        │          └─ 10.0.0.0/24 ─┘            │       ┃
+┃        │                                       │       ┃
+┗━━━━━━━━┷━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┷───────┛
+     ssh 11022                               ssh 12022
 ```
+
+Container is Debian based with QEMU installed.
+
+VM are Debian generic cloud images.
 
 ## Links
 
-- https://github.com/tianon/docker-qemu
-- http://cloud.debian.org/images/cloud/
-- http://cloudinit.readthedocs.io
 - http://qemu.org
+- http://cloudinit.readthedocs.io
+- http://cloud.debian.org/images/cloud/
+- https://github.com/tianon/docker-qemu

@@ -1,0 +1,9 @@
+version: 2
+ethernets:
+  ens5:
+    match:
+      macaddress: "52:54:00:29:2b:01"
+    set-name: net0
+    addresses:
+      - 10.0.0.11/255.255.255.0
+    gateway4: 10.0.0.1

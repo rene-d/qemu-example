@@ -3,7 +3,7 @@ Host vm1
     User debian
     Port 11022
     StrictHostKeyChecking no
-    UserKnownHostsFile /dev/null
+#    UserKnownHostsFile /dev/null
 
 Host vm2
     Hostname localhost

@@ -13,18 +13,21 @@ RUN curl -skL -o /usr/local/bin/cloud-localds https://raw.githubusercontent.com/
 # Debian Cloud image (http://cloud.debian.org/images/cloud/)
 # COPY debian-10-genericcloud-amd64-20210721-710.qcow2 /hda.qcow2
 # RUN curl -skL -o /hda.qcow2 http://cloud.debian.org/images/cloud/buster/20210721-710/debian-10-generic-amd64-20210721-710.qcow2
-# RUN curl -skL -o /hda.qcow2 http://cloud.debian.org/images/cloud/buster/20210721-710/debian-10-genericcloud-amd64-20210721-710.qcow2
-RUN curl -skL -o /hda.qcow2 http://cloud.debian.org/images/cloud/buster/20210721-710/debian-10-nocloud-amd64-20210721-710.qcow2
+RUN curl -skL -o /hda.qcow2 http://cloud.debian.org/images/cloud/buster/20210721-710/debian-10-genericcloud-amd64-20210721-710.qcow2
+# RUN curl -skL -o /hda.qcow2 http://cloud.debian.org/images/cloud/buster/20210721-710/debian-10-nocloud-amd64-20210721-710.qcow2
 
-# create backing files
-RUN qemu-img create -f qcow2 -b /hda.qcow2 -F qcow2 /hda_vm1.qcow2
-RUN qemu-img create -f qcow2 -b /hda.qcow2 -F qcow2 /hda_vm2.qcow2
-
+# set up ssh
+RUN mkdir -p /root/.ssh && \
+    chmod 700 /root/.ssh
+COPY ssh_config /root/.ssh/config
 COPY id_rsa.cloud /root/.ssh/id_rsa
 COPY id_rsa.cloud.pub /root/.ssh/id_rsa.pub
-COPY userdata.txt start.sh ifup-qemu metadata.json /
+RUN chmod 600 /root/.ssh/config /root/.ssh/id_rsa && \
+    chmod 644 /root/.ssh/id_rsa.pub
 
-RUN cloud-localds /userdata.iso userdata.txt metadata.json
+# set up cloud-init
+WORKDIR /root
+COPY userdata.txt start.sh ifup-qemu metadata.json network-config*.yaml ./
 
 RUN echo "alias ll='ls --color=auto -l'" >> /root/.bashrc
 
